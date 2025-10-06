@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/Button";
 import { TextInput } from "@/components/TextInput";
 import { encode } from "@/helpers/utils";

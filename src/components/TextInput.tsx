@@ -1,7 +1,6 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import { twMerge } from "tailwind-merge";
 import { Label } from "./Label";
-import { useState } from "react";
 
 const inputVariants = cva(
 	[
