@@ -1,5 +1,13 @@
+import { Login } from "./routes/Login";
+
 function App() {
-	return <h1>Hello World</h1>;
+	return (
+		<div className="flex justify-center my-auto h-dvh">
+			<div className="place-content-center">
+				<Login />
+			</div>
+		</div>
+	);
 }
 
 export default App;
