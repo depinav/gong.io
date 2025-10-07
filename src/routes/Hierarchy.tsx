@@ -41,7 +41,18 @@ export function Hierarchy() {
 	);
 
 	const handleLogout = () => {
-		window.localStorage.setItem("REACT_QUERY_OFFLINE_CACHE", "");
+		const currentCache = window.localStorage.getItem(
+			"REACT_QUERY_OFFLINE_CACHE",
+		);
+		if (currentCache) {
+			window.localStorage.setItem(
+				"REACT_QUERY_OFFLINE_CACHE",
+				JSON.stringify({
+					...JSON.parse(currentCache),
+					clientState: { queries: [] },
+				}),
+			);
+		}
 		queryClient.invalidateQueries({ queryKey: ["userId", userId] });
 	};
 

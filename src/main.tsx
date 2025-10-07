@@ -27,7 +27,7 @@ if (container) {
 		<StrictMode>
 			<PersistQueryClientProvider
 				client={queryClient}
-				persistOptions={{ persister, buster: "" }}
+				persistOptions={{ persister }}
 			>
 				<App />
 				<ReactQueryDevtools initialIsOpen={false} />
