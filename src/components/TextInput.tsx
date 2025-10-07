@@ -1,4 +1,5 @@
 import { cva, type VariantProps } from "class-variance-authority";
+import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { Label } from "./Label";
 
@@ -52,7 +53,6 @@ type InputType = "email" | "text" | "password";
 interface InputProps extends InputVariants {
 	label: string;
 	type?: InputType;
-	value: string;
 	isValid?: boolean;
 	disabled?: boolean;
 	onChange: (value: string) => void;
@@ -61,19 +61,22 @@ interface InputProps extends InputVariants {
 export function TextInput({
 	label,
 	type = "text",
-	value,
 	isValid = true,
 	disabled = false,
 	onChange,
 }: InputProps) {
+	const [value, setValue] = useState("");
 	const labelFor = `${label.charAt(0).toLowerCase()}${label.slice(1).replaceAll(" ", "")}`;
 
 	return (
-		<div>
+		<div data-testid="text-input-container">
 			<Label labelFor={labelFor}>{label}</Label>
 			<input
 				disabled={disabled}
-				onChange={(e) => onChange(e.currentTarget.value)}
+				onChange={(e) => {
+					setValue(e.currentTarget.value);
+					onChange(e.currentTarget.value);
+				}}
 				value={value}
 				type={type}
 				id={labelFor}
@@ -83,6 +86,7 @@ export function TextInput({
 					validation: isValid ? "default" : "error",
 					size: "medium",
 				})}
+				data-testid="input-field"
 			/>
 			{!isValid && (
 				<p id={`${labelFor}-error`} className={input({ intent: "error" })}>

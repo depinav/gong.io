@@ -36,19 +36,17 @@ export function Login() {
 	return (
 		<Suspense fallback={<Spinner className="size-8" />}>
 			<div className={login({ intent: "primary" })}>
-				<h1>Please login</h1>
+				<h1 data-testid="login-header">Please login</h1>
 				<div className={login({ intent: "subSection" })}>
 					<TextInput
 						isValid={isValidEmail}
 						label="Email Address"
-						value={email}
 						onChange={(value) => setEmail(value)}
 					/>
 					<TextInput
 						isValid={isValidPassword}
 						type="password"
 						label="Password"
-						value={password}
 						onChange={(value) => setPassword(value)}
 					/>
 					<Button

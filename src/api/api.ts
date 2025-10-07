@@ -1,6 +1,6 @@
 import type { User } from "@/helpers/types";
 
-const baseUrl = "https://gongfetest.firebaseio.com/";
+export const baseUrl = "https://gongfetest.firebaseio.com/";
 
 export async function login(secret: string): Promise<string | null> {
 	const response = await fetch(`${baseUrl}secrets/${secret}.json`);
