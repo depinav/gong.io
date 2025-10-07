@@ -19,8 +19,8 @@ function App() {
 	return (
 		<Suspense fallback={<Spinner className="size-8" />}>
 			<div className={app({})}>
-				{!userId && !secret && <Login />}
-				{userId && secret && <Hierarchy />}
+				{!userId && <Login />}
+				{userId && <Hierarchy />}
 			</div>
 		</Suspense>
 	);
