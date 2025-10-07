@@ -1,8 +1,25 @@
+import { cva, type VariantProps } from "class-variance-authority";
+import { twMerge } from "tailwind-merge";
 import { UserList } from "@/components/UserList";
 import type { User } from "@/helpers/types";
 import { mapUserHierarchy } from "@/helpers/utils";
 import { useLoginQuery } from "@/hooks/useLoginQuery";
 import { useUsers } from "@/hooks/useUsers";
+
+const hierarchyVariants = cva([], {
+	variants: {
+		intent: {
+			primary: ["flex", "flex-col", "w-2xl"],
+			logout: ["flex", "self-end", "gap-2"],
+		},
+	},
+});
+
+export interface HierarchyVariants
+	extends VariantProps<typeof hierarchyVariants> {}
+
+export const hierarchy = (variants: HierarchyVariants) =>
+	twMerge(hierarchyVariants(variants));
 
 function mapUsers(users: User[]) {
 	const { manager = [], ...rest } = Object.groupBy(
@@ -22,8 +39,8 @@ export function Hierarchy() {
 	);
 
 	return (
-		<div className="flex flex-col w-2xl">
-			<div className="flex self-end gap-2">
+		<div className={hierarchy({ intent: "primary" })}>
+			<div className={hierarchy({ intent: "logout" })}>
 				<p>
 					{loggedInUser?.firstName} {loggedInUser?.lastName}
 				</p>
@@ -31,7 +48,7 @@ export function Hierarchy() {
 					(<a href="/">Logout</a>)
 				</div>
 			</div>
-			<h1 className="text-3xl">Hierarchy Tree</h1>
+			<h1>Hierarchy Tree</h1>
 			{users && <UserList users={mapUsers(users)} />}
 		</div>
 	);

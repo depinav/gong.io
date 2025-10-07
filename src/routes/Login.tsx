@@ -1,6 +1,23 @@
+import { cva, type VariantProps } from "class-variance-authority";
+import { twMerge } from "tailwind-merge";
 import { Button } from "@/components/Button";
 import { TextInput } from "@/components/TextInput";
 import { useLogIn } from "@/hooks/useLogIn";
+
+const loginVariants = cva([], {
+	variants: {
+		intent: {
+			primary: ["border-1", "h-fit", "px-20", "py-4", "rounded-lg"],
+			subSection: ["flex", "flex-col", "gap-2"],
+			error: ["mt-2", "text-sm", "text-red-600"],
+		},
+	},
+});
+
+export interface LoginVariants extends VariantProps<typeof loginVariants> {}
+
+export const login = (variants: LoginVariants) =>
+	twMerge(loginVariants(variants));
 
 export function Login() {
 	const {
@@ -15,9 +32,9 @@ export function Login() {
 	} = useLogIn();
 
 	return (
-		<div className="border-1 h-fit px-20 py-4 rounded-lg">
-			<h1 className="text-3xl">Please login</h1>
-			<div className="flex flex-col gap-2">
+		<div className={login({ intent: "primary" })}>
+			<h1>Please login</h1>
+			<div className={login({ intent: "subSection" })}>
 				<TextInput
 					isValid={isValidEmail}
 					label="Email Address"
@@ -39,7 +56,7 @@ export function Login() {
 				</Button>
 			</div>
 			{error && (
-				<p className="mt-2 text-sm text-red-600">
+				<p className={login({ intent: "error" })}>
 					There was a problem with logging in
 				</p>
 			)}

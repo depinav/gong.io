@@ -1,16 +1,12 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import { twMerge } from "tailwind-merge";
 
-const labelVariants = cva(["label"], {
-	variants: {
-		intent: {
-			primary: ["block", "text-sm/6", "font-medium", "text-gray-900"],
-		},
-	},
-	defaultVariants: {
-		intent: "primary",
-	},
-});
+const labelVariants = cva([
+	"block",
+	"text-sm/6",
+	"font-medium",
+	"text-gray-900",
+]);
 
 export interface LabelVariants extends VariantProps<typeof labelVariants> {}
 
@@ -22,9 +18,9 @@ interface LabelProps extends LabelVariants {
 	labelFor: string;
 }
 
-export function Label({ intent, labelFor, children }: LabelProps) {
+export function Label({ labelFor, children }: LabelProps) {
 	return (
-		<label htmlFor={labelFor} className={label({ intent })}>
+		<label htmlFor={labelFor} className={label({})}>
 			{children}
 		</label>
 	);

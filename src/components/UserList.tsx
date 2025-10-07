@@ -1,6 +1,31 @@
+import { cva, type VariantProps } from "class-variance-authority";
 import { useState } from "react";
+import { twMerge } from "tailwind-merge";
 import type { UserQuery } from "@/helpers/types";
 import { UserLine } from "./UserLine";
+
+const userListVariants = cva([], {
+	variants: {
+		intent: {
+			primary: ["flex", "flex-col"],
+			children: ["ml-6"],
+		},
+		toggle: {
+			expanded: ["block"],
+			collapsed: ["hidden"],
+		},
+	},
+});
+
+export interface UserListVariants
+	extends VariantProps<typeof userListVariants> {}
+
+export const userList = (variants: UserListVariants) =>
+	twMerge(userListVariants(variants));
+
+interface UserListProps extends UserListVariants {
+	users: UserQuery[];
+}
 
 function handleToggleMap(users: UserQuery[]) {
 	let toggleMap: { [key: number]: boolean } = {};
@@ -16,7 +41,7 @@ function handleToggleMap(users: UserQuery[]) {
 	return toggleMap;
 }
 
-export function UserList({ users }: { users: UserQuery[] }) {
+export function UserList({ users }: UserListProps) {
 	const [usersToggle, setUsersToggle] = useState(() => handleToggleMap(users));
 
 	const handleToggleClick = (id: number) => {
@@ -26,10 +51,15 @@ export function UserList({ users }: { users: UserQuery[] }) {
 
 	return users.map((user) => {
 		return (
-			<div key={user.id} className="flex flex-col gap-3.5">
+			<div key={user.id} className={userList({ intent: "primary" })}>
 				<UserLine user={user} onClick={handleToggleClick} />
-				{user.children && usersToggle[user.id] && (
-					<div className="ml-6">
+				{user.children && (
+					<div
+						className={userList({
+							intent: "children",
+							toggle: usersToggle[user.id] ? "expanded" : "collapsed",
+						})}
+					>
 						<UserList users={user.children} />
 					</div>
 				)}
