@@ -54,6 +54,7 @@ interface InputProps extends InputVariants {
 	type?: InputType;
 	value: string;
 	isValid?: boolean;
+	disabled?: boolean;
 	onChange: (value: string) => void;
 }
 
@@ -62,6 +63,7 @@ export function TextInput({
 	type = "text",
 	value,
 	isValid = true,
+	disabled = false,
 	onChange,
 }: InputProps) {
 	const labelFor = `${label.charAt(0).toLowerCase()}${label.slice(1).replaceAll(" ", "")}`;
@@ -70,6 +72,7 @@ export function TextInput({
 		<div>
 			<Label labelFor={labelFor}>{label}</Label>
 			<input
+				disabled={disabled}
 				onChange={(e) => onChange(e.currentTarget.value)}
 				value={value}
 				type={type}

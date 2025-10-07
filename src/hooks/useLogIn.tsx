@@ -30,7 +30,9 @@ export function useLogIn() {
 		setIsValidEmail(isEmailValid);
 		setIsValidPassword(password.length > 0);
 		if (isEmailValid && password.length > 0) {
-			setSecret(encode(email, password));
+			const encodedSecret = encode(email, password);
+			window.localStorage.setItem("secret", JSON.stringify(secret));
+			setSecret(encodedSecret);
 		}
 	};
 

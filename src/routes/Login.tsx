@@ -1,7 +1,9 @@
 import { cva, type VariantProps } from "class-variance-authority";
+import { Suspense } from "react";
 import { twMerge } from "tailwind-merge";
 import { Button } from "@/components/Button";
 import { TextInput } from "@/components/TextInput";
+import { Spinner } from "@/components/ui/spinner";
 import { useLogIn } from "@/hooks/useLogIn";
 
 const loginVariants = cva([], {
@@ -32,34 +34,36 @@ export function Login() {
 	} = useLogIn();
 
 	return (
-		<div className={login({ intent: "primary" })}>
-			<h1>Please login</h1>
-			<div className={login({ intent: "subSection" })}>
-				<TextInput
-					isValid={isValidEmail}
-					label="Email Address"
-					value={email}
-					onChange={(value) => setEmail(value)}
-				/>
-				<TextInput
-					isValid={isValidPassword}
-					type="password"
-					label="Password"
-					value={password}
-					onChange={(value) => setPassword(value)}
-				/>
-				<Button
-					onClick={handleSubmit}
-					disabled={email.length <= 0 || password.length <= 0}
-				>
-					Login
-				</Button>
+		<Suspense fallback={<Spinner className="size-8" />}>
+			<div className={login({ intent: "primary" })}>
+				<h1>Please login</h1>
+				<div className={login({ intent: "subSection" })}>
+					<TextInput
+						isValid={isValidEmail}
+						label="Email Address"
+						value={email}
+						onChange={(value) => setEmail(value)}
+					/>
+					<TextInput
+						isValid={isValidPassword}
+						type="password"
+						label="Password"
+						value={password}
+						onChange={(value) => setPassword(value)}
+					/>
+					<Button
+						onClick={handleSubmit}
+						disabled={email.length <= 0 || password.length <= 0}
+					>
+						Login
+					</Button>
+				</div>
+				{error && (
+					<p className={login({ intent: "error" })}>
+						There was a problem with logging in
+					</p>
+				)}
 			</div>
-			{error && (
-				<p className={login({ intent: "error" })}>
-					There was a problem with logging in
-				</p>
-			)}
-		</div>
+		</Suspense>
 	);
 }

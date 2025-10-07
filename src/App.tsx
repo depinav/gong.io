@@ -1,5 +1,7 @@
 import { cva, type VariantProps } from "class-variance-authority";
+import { Suspense } from "react";
 import { twMerge } from "tailwind-merge";
+import { Spinner } from "@/components/ui/spinner";
 import { useLoginQuery } from "@/hooks/useLoginQuery";
 import { Hierarchy } from "@/routes/Hierarchy";
 import { Login } from "@/routes/Login";
@@ -11,12 +13,16 @@ export interface AppVariants extends VariantProps<typeof appVariants> {}
 export const app = (variants: AppVariants) => twMerge(appVariants(variants));
 
 function App() {
-	const { data: userId, isFetching } = useLoginQuery({ secret: null });
+	const secret = window.localStorage.getItem("secret");
+	const { data: userId } = useLoginQuery({ secret });
 
 	return (
-		<div className={app({})}>
-			{!isFetching ? userId ? <Hierarchy /> : <Login /> : <>Loading...</>}
-		</div>
+		<Suspense fallback={<Spinner className="size-8" />}>
+			<div className={app({})}>
+				{!userId && !secret && <Login />}
+				{userId && secret && <Hierarchy />}
+			</div>
+		</Suspense>
 	);
 }
 
