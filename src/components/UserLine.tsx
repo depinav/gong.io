@@ -6,7 +6,7 @@ import { UserPhoto } from "./UserPhoto";
 const userLineVariants = cva([], {
 	variants: {
 		intent: {
-			primary: ["flex", "items-center", "gap-6"],
+			primary: ["flex", "items-center", "gap-6", "my-1.5"],
 			profile: ["flex", "gap-4"],
 			button: ["cursor-pointer"],
 			info: ["flex", "gap-2"],
