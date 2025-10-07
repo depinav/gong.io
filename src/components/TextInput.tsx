@@ -76,6 +76,7 @@ export function TextInput({
 				id={labelFor}
 				aria-describedby={`${labelFor}-error`}
 				className={input({
+					intent: "primary",
 					validation: isValid ? "default" : "error",
 					size: "medium",
 				})}
