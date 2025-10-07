@@ -1,4 +1,5 @@
 import { cva, type VariantProps } from "class-variance-authority";
+import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 const userPhotoVariants = cva(
@@ -24,9 +25,19 @@ interface UserPhotoProps extends UserPhotoVariants {
 }
 
 export function UserPhoto({ initials, src }: UserPhotoProps) {
+	const [hasImage, setHasImage] = useState(false);
+
+	useEffect(() => {
+		if (src) {
+			const img = new Image();
+			img.src = src;
+			img.onload = () => setHasImage(true);
+		}
+	}, [src]);
+
 	return (
 		<>
-			{src ? (
+			{hasImage ? (
 				<img src={`${src}`} alt={`${initials}`} className={userPhoto({})} />
 			) : (
 				<div className={userPhoto({ intent: "initials" })}>
