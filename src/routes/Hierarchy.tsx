@@ -1,3 +1,4 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { cva, type VariantProps } from "class-variance-authority";
 import { twMerge } from "tailwind-merge";
 import { UserList } from "@/components/UserList";
@@ -31,12 +32,18 @@ function mapUsers(users: User[]) {
 }
 
 export function Hierarchy() {
+	const queryClient = useQueryClient();
 	const { data: userId } = useLoginQuery({ secret: null });
 	const { data: users } = useUsers({ userId: userId || "" });
 
 	const loggedInUser = users?.find(
 		(user) => user.id === parseInt(userId || "", 10),
 	);
+
+	const handleLogout = () => {
+		window.localStorage.setItem("REACT_QUERY_OFFLINE_CACHE", "");
+		queryClient.invalidateQueries({ queryKey: ["userId", userId] });
+	};
 
 	return (
 		<div className={hierarchy({ intent: "primary" })}>
@@ -45,7 +52,11 @@ export function Hierarchy() {
 					{loggedInUser?.firstName} {loggedInUser?.lastName}
 				</p>
 				<div>
-					(<a href="/">Logout</a>)
+					(
+					<a href="/" onClick={handleLogout}>
+						Logout
+					</a>
+					)
 				</div>
 			</div>
 			<h1>Hierarchy Tree</h1>
