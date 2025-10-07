@@ -83,7 +83,7 @@ export function TextInput({
 			/>
 			{!isValid && (
 				<p id={`${labelFor}-error`} className="mt-2 text-sm text-red-600">
-					Invalid {label}.
+					Invalid {label}
 				</p>
 			)}
 		</div>

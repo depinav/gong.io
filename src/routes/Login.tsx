@@ -1,24 +1,18 @@
-import { useState } from "react";
 import { Button } from "@/components/Button";
 import { TextInput } from "@/components/TextInput";
-import { encode } from "@/helpers/utils";
-
-const emailTester = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+import { useLogIn } from "@/hooks/useLogIn";
 
 export function Login() {
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-	const [isValidEmail, setIsValidEmail] = useState(true);
-	const [isValidPassword, setIsValidPassword] = useState(true);
-
-	const handleSubmit = () => {
-		setIsValidEmail(email.length > 0 && emailTester.test(email));
-		setIsValidPassword(password.length > 0);
-		if (email.length > 0 && password.length > 0) {
-			const encoded = encode(email, password);
-			console.log("🚀 ~ handleSubmit ~ encoded:", encoded);
-		}
-	};
+	const {
+		email,
+		password,
+		isValidEmail,
+		isValidPassword,
+		error,
+		setEmail,
+		setPassword,
+		handleSubmit,
+	} = useLogIn();
 
 	return (
 		<div className="border-1 h-fit px-20 py-4 rounded-lg">
@@ -44,6 +38,11 @@ export function Login() {
 					Login
 				</Button>
 			</div>
+			{error && (
+				<p className="mt-2 text-sm text-red-600">
+					There was a problem with logging in
+				</p>
+			)}
 		</div>
 	);
 }

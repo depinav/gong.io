@@ -1,3 +1,5 @@
+import type { User, UserQuery } from "./types";
+
 const POISON_ARRAY = [
 	156, 33, 64, 174, 120, 204, 69, 242, 177, 98, 16, 244, 75, 5, 21, 7, 145, 39,
 	156, 119, 246, 63, 43, 201, 91, 164, 171, 244, 198, 100, 252, 91, 92, 193, 95,
@@ -37,4 +39,25 @@ export function encode(email: string, password: string) {
 		encodedResult += value.toString(16).padStart(2, "0").toUpperCase();
 	}
 	return encodedResult;
+}
+
+export function mapUserHierarchy(
+	users: User[],
+	byManager: Partial<Record<number, User[]>>,
+): UserQuery[] {
+	const usersWithChildren: UserQuery[] = [];
+	for (const user of users) {
+		let updatedUser: UserQuery = { ...user };
+		const children = byManager[user.id];
+		if (children) {
+			updatedUser = {
+				...updatedUser,
+				isOpen: true,
+				children: mapUserHierarchy(children, byManager),
+			};
+		}
+		usersWithChildren.push(updatedUser);
+	}
+
+	return usersWithChildren;
 }

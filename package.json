@@ -6,11 +6,13 @@
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc -b && vite build",
-		"lint": "eslint .",
+		"lint": "biome lint",
 		"preview": "vite preview"
 	},
 	"dependencies": {
 		"@tailwindcss/vite": "4.1.14",
+		"@tanstack/react-query": "^5.90.2",
+		"@tanstack/react-query-devtools": "^5.90.2",
 		"class-variance-authority": "^0.7.1",
 		"react": "^19.1.1",
 		"react-dom": "^19.1.1",
